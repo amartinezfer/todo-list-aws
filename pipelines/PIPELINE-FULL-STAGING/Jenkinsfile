@@ -36,7 +36,7 @@ pipeline {
         stage('Deploy'){
             steps{
                 echo 'Initiating Deployment'
-                sh "bash pipelines/common-steps/deploy.sh"
+                sh "bash pipelines/common-steps/deploy.sh amafernandez-todo-list-staging"
             }
         }
         stage('Integration Test after deploy'){
