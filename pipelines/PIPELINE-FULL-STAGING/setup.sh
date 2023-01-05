@@ -3,11 +3,10 @@
 set -x
 alias python=python3.7
 
-pip3 install virtualenv
-
-virtualenv todo-list-aws
-
+python3.7 -m venv todo-list-aws
 source todo-list-aws/bin/activate
+
+
 python -m pip install --upgrade pip
 #For static testing
 python -m pip install radon==5.1.0
