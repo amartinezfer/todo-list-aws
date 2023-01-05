@@ -20,7 +20,7 @@ pipeline {
         stage('Deploy'){
             steps{
                 echo 'Initiating Deployment'
-                sh "bash pipelines/common-steps/deploy.sh amafernandez-todo-list-prod"
+                sh "bash pipelines/common-steps/deploy.sh todo-list-aws-production"
             }
         }
         stage('Integration Test after deploy'){
