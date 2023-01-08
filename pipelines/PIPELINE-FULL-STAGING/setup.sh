@@ -21,5 +21,5 @@ python -m pip install moto==4.0.11
 python -m pip install mock==4.0.3
 python -m pip install coverage==6.5.0
 
-
+python -m pip install awscli
 pwd
