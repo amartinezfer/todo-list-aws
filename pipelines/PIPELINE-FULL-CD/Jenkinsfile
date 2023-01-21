@@ -7,7 +7,7 @@ pipeline {
             steps{
                 echo 'set url'
                 sh "$(git remote get-url origin | sed 's#https://github.com/##g')"
-                sh "git remote set-url origin git@github.com:$(git remote get-url origin | sed 's#https://github.com/##g')"
+                sh "git remote set-url origin git@github.com:\$(git remote get-url origin | sed 's#https://github.com/##g')"
             }
         }
         stage('Staging'){
