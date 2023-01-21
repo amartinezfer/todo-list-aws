@@ -20,15 +20,16 @@ pipeline {
         stage('Merge'){
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkinsSSH', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USERNAME')]) {                  
-                    
+                    sh script: """
+                    set -x
+                    git remote get-url origin
                     git branch -a
                     git checkout -b develop origin/develop
                     git checkout -b master origin/master
-                    git merge develop 
+                    git merge develop
                     git '-i ${SSH_KEY_FILE} git push origin master'
+                    """, label: "Merging code to master"                                       
                 }
-                
-
             }
         }
         stage('Production'){
