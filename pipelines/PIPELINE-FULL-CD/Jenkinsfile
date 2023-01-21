@@ -19,7 +19,6 @@ pipeline {
                     git merge develop
                 """, label: "Merging code to master"
                sshagent(['jenkinsSSH']) {
-                    sh 'ssh-add ~/.ssh/id_rsa'
                     sh 'git push origin master'
                 }
 
