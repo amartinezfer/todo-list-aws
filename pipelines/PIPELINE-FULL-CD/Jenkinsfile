@@ -2,6 +2,14 @@ pipeline {
     agent any
     stages {
         
+        
+        stage('SetUp'){
+            steps{
+                echo 'set url'
+                sh "git remote get-url origin | sed 's/https:\/\/github.com\///'"
+                sh "git remote set-url origin git@github.com:amartinezfer/todo-list-aws.git"
+            }
+        }
         stage('Staging'){
             steps{
                 echo 'Starting staging job'
