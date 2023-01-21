@@ -22,6 +22,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkinsSSH', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USERNAME')]) {                  
                     sh script: """
                     set -x
+                    ssh-keyscan git@github.com >> ~/.ssh/known_hosts
                     git remote get-url origin
                     git branch -a
                     git checkout -b develop origin/develop
