@@ -18,12 +18,8 @@ pipeline {
                     git checkout -b master origin/master
                     git merge develop
                 """, label: "Merging code to master"
-               sshagent(['jenkinsSSH']) {
-                    sh 'touch ~/.ssh/id_rsa'
-                    sh 'chmod 600 ~/.ssh/id_rsa'
-                    sh 'ssh-add ~/.ssh/id_rsa'
-                    sh 'cat ~/.ssh/id_rsa' 
-                    sh 'git -i ~/.ssh/id_rsa push origin master'
+               sshagent(['jenkinsSSH']) {                  
+                    sh 'git  push origin master'
                 }
 
             }
