@@ -27,7 +27,7 @@ pipeline {
                     git checkout -b develop origin/develop
                     git checkout -b master origin/master
                     git merge develop
-                    git '-i ${SSH_KEY_FILE} git push origin master'
+                    git push origin master
                     """, label: "Merging code to master"                                       
                 }
             }
