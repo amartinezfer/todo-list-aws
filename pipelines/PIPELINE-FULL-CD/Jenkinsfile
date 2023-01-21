@@ -25,6 +25,7 @@ pipeline {
                     ssh-keyscan github.com >> ~/.ssh/known_hosts
                     touch ~/.ssh/id_rsa
                     chmod 600 ~/.ssh/id_rsa
+                    ps -ef | grep ssh-agent
                     ssh-add ${SSH_KEY_FILE}
                     cat ~/.ssh/id_rsa
                     git remote get-url origin
