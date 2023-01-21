@@ -6,8 +6,8 @@ pipeline {
         stage('SetUp'){
             steps{
                 echo 'set url'
-                sh "git remote get-url origin | sed 's#https://github.com/##g'"
-                sh "git remote set-url origin git@github.com:amartinezfer/todo-list-aws.git"
+                sh "$(git remote get-url origin | sed 's#https://github.com/##g')"
+                sh "git remote set-url origin git@github.com:$(git remote get-url origin | sed 's#https://github.com/##g')"
             }
         }
         stage('Staging'){
@@ -21,6 +21,7 @@ pipeline {
             steps{
                 sh script: """
                     set -x
+                    git remote get-url origin
                     git branch -a
                     git checkout -b develop origin/develop
                     git checkout -b master origin/master
