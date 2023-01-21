@@ -18,24 +18,20 @@ pipeline {
             }
         }
         stage('Merge'){
-            steps{
-                withCredentials([sshUserPrivateKey(credentialsId: 'jenkinsSSH', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USERNAME')]) {                  
-                    sh script: """
+            steps{               
+                sh script: """
                     set -x
-                    ssh-keyscan github.com >> ~/.ssh/known_hosts
-                    touch ~/.ssh/id_rsa
-                    chmod 600 ~/.ssh/id_rsa
-                    ps -ef | grep ssh-agent
-                    ssh-add ${SSH_KEY_FILE}
-                    cat ~/.ssh/id_rsa
                     git remote get-url origin
                     git branch -a
                     git checkout -b develop origin/develop
                     git checkout -b master origin/master
                     git merge develop
-                    git push origin master
-                    """, label: "Merging code to master"                                       
+                """, label: "Merging code to master"
+               sshagent(['jenkinsSSH']) {        
+                    sh 'ssh-keyscan github.com >> ~/.ssh/known_hosts'          
+                    sh 'git  push origin master'
                 }
+
             }
         }
         stage('Production'){
