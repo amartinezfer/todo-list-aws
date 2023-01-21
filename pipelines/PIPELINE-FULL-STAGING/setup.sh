@@ -2,6 +2,9 @@
 
 set -x
 alias python=python3.7
+alias pip=pip3
+
+yes | sudo apt-get install python3-venv 
 
 python3.7 -m venv todo-list-aws
 source todo-list-aws/bin/activate
