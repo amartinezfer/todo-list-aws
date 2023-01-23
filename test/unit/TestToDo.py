@@ -104,6 +104,15 @@ class TestDatabaseFunctions(unittest.TestCase):
             responseGet['text'])
         print ('End: test_get_todo')
     
+    def test_environ_not_exit(self):
+        print ('---------------------')
+        print ('Start: test_environ_not_exit')
+        from src.todoList import get_item
+
+        self.assertRaises( KeyError, get_item('id_not_exist'), 'invalid_key', self.dynamodb)        
+        print ('End: test_environ_not_exit')
+
+
     def test_list_todo(self):
         print ('---------------------')
         print ('Start: test_list_todo')
