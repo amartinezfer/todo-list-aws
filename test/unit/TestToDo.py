@@ -6,6 +6,14 @@ import sys
 import os
 import json
 
+
+# Clase necesaria para serializar los Decimals de DynamoDB
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Decimal):
+            return float(o)
+        return super(DecimalEncoder, self).default(o)
+
 @mock_dynamodb
 class TestDatabaseFunctions(unittest.TestCase):
     def setUp(self):
@@ -28,6 +36,10 @@ class TestDatabaseFunctions(unittest.TestCase):
         self.is_local = 'true'
         self.uuid = "123e4567-e89b-12d3-a456-426614174000"
         self.text = "Aprender DevOps y Cloud en la UNIR"
+        self.lanEn = "en"
+        self.lanEs = "es"        
+        self.textTransEn = "Cloud for dummies"
+        self.textTransEs = "Traduceme lo que puedas"
 
         from src.todoList import create_todo_table
         self.table = create_todo_table(self.dynamodb)
@@ -207,6 +219,39 @@ class TestDatabaseFunctions(unittest.TestCase):
         # Testing file functions
         self.assertRaises(TypeError, delete_item("", self.dynamodb))
         print ('End: test_delete_todo_error')
+
+    def test_get_todo_translate(self):
+        print ('---------------------')
+        print ('Start: test_get_todo_translate')
+        from src.todoList import put_item        
+        from src.todoList import get_item_translate
+
+        # Testing file functions
+        # Table mock
+        responsePut = put_item(self.textTransEn,self.dynamodb)
+        print ('Response put_item:' + str(responsePut))
+        idItem = json.loads(responsePut['body'])['id']
+        
+        print ('Id item:' + idItem)
+        self.assertEqual(200, responsePut['statusCode'])
+        
+        responseGet = get_item_translate(
+                idItem,
+                self.dynamodb)
+        
+        self.assertIsNone(responseGet,  'none response') 
+      
+        if responseGet is not None: 
+            if self.textTransEs == "es" :
+                self.assertEqual(responseGet['text'],self.textTransEs)
+            if self.textTransEn == "en" :
+                self.assertEqual(responseGet['text'],self.textTransEn)
+            self.assertEqual(
+                self.text,
+                responseGet['text'])
+        print ('End: test_get_todo_translate')
+   
+       
 
 if __name__ == '__main__':
     unittest.main()
