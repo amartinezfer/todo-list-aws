@@ -9,6 +9,7 @@ def gettrans(event, context):
     language = event['pathParameters']['language']
     id = event['pathParameters']['id']
     lan = event['pathParameters']['language']
+    
     item = todoList.get_item_translate(id,lan)
     
     if item:
