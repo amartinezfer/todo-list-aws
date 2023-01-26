@@ -47,12 +47,10 @@ def get_item_translate(key,language, dynamodb=None):
             }
         )
         if 'Item' in result:       
-                
             translated_text = result['Item']['text']
             comprehend = boto3.client('comprehend')
             language_detection = comprehend.detect_dominant_language(Text=translated_text)
             detected_language =  language_detection['Languages'][0]['LanguageCode']
-          
             if detected_language != language:
             # Traducir el texto        
                 translate = boto3.client('translate')
@@ -63,7 +61,7 @@ def get_item_translate(key,language, dynamodb=None):
             result.item['text'] = translated_text
 
     except ClientError as e:
-        print(e.response['Error']['Message'])
+        print("Exception translate:"+e.response['Error']['Message'])
     else:
         print('Result getItem:'+str(result))
         if 'Item' in result:
